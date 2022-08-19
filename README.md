@@ -5,8 +5,8 @@ Neste sistema será elaborado uma API de uma rede social utilizando node express
 
 ## Tasks:
  
-- [ ] Login
-- [ ] Criar Conta
+- [x] Login
+- [x] Criar Conta
 - [ ] Publicar Postagem
 - [ ] Curtir Postagem
 - [ ] Excluir Postagem
