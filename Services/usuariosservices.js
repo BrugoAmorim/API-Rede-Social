@@ -10,6 +10,9 @@ async function validarLogin(req){
 
     if(buscarUser.ds_senha !== req.senha)
         throw new Error("Senha de acesso incorreta");
+        
+    if(buscarUser.ds_status_usuario === "BANIDO")
+        throw new Error("Este usuário foi banido do site permanentemente, por favor tente outro");
 
     return buscarUser;
 }
@@ -24,8 +27,11 @@ async function validarNovaConta(req){
     if(Usuarios.filter(x => x.nm_usuario == req.usuario).length > 0)
         throw new Error("Este nome de usuário ja esta sendo usado");
 
-    if(req.senha.length < 8 || req.senha.length > 30)
-        throw new Error("Senha inválida, por favor tente outra");
+    if(req.senha.length < 8)
+        throw new Error("Senha muito curta, mínimo 8 caracteres");
+
+    if(req.senha.length > 30)
+        throw new Error("Senha muito longa, máximo 30 caracteres");
 
     if(req.senha.trim().includes(" ") === true)
         throw new Error("Não é permitido usar caracteres especiais, somente [!-@-#-$]");

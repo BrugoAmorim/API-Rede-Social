@@ -46,7 +46,11 @@ const Usuarios = conexaodb.define('Tb_Usuarios', {
     },
     id_nivel_acesso:{
         type: Sequelize.INTEGER
+    },
+    ds_status_usuario: {
+        type: Sequelize.STRING
     }
+
 }, { timestamps: false });
 
 // TbNiveis.hasOne(Usuarios, { foreignKey: "id_nivel_acesso" });

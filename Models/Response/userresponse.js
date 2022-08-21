@@ -11,7 +11,8 @@ function ModelUsuarioRes(){
         datanascimento: '',
         ultimologin: '',
         linkweb: '',
-        nivelacesso: '',   
+        nivelacesso: '',  
+        status: ''
     }
 }
 

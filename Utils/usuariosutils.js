@@ -1,9 +1,11 @@
 
+const TbNiveis = require('../Models/tbniveis').Niveis;
 const criarobjeto = require('../Models/Response/userresponse');
 
-function ConverterTBparaRes(obj){
+async function ConverterTBparaRes(obj){
 
     let modelRes = criarobjeto.ModelUsuarioRes();
+    const infoNvl = await TbNiveis.findOne({ where: { id_nivel_acesso: obj.id_nivel_acesso } });
 
     modelRes.idusuario = obj.id_usuario;
     modelRes.nome = obj.nm_usuario;
@@ -13,8 +15,9 @@ function ConverterTBparaRes(obj){
     modelRes.datanascimento = obj.dt_nascimento;
     modelRes.ultimologin = obj.dt_ultimo_login;
     modelRes.linkweb = obj.ds_link_web;
-    modelRes.nivelacesso = obj.id_nivel_acesso;
-    
+    modelRes.nivelacesso = infoNvl.nm_nivel_acesso;
+    modelRes.status = obj.ds_status_usuario;
+
     return modelRes;
 }
 

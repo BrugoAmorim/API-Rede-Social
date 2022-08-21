@@ -11,7 +11,7 @@ const Login = async (req, res) => {
         const body = { email, senha } = req.body;
 
         const modelTB = await validacoes.validarLogin(body);
-        const modelRes = conversor.ConverterTBparaRes(modelTB);
+        const modelRes = await conversor.ConverterTBparaRes(modelTB);
 
         return res.status(200).json(modelRes);
     }
@@ -37,7 +37,7 @@ const CriarConta = async (req, res) => {
             dt_nascimento: itemreq.datanascimento,
             dt_ultimo_login: new Date(),
             ds_link_web: itemreq.linkweb,
-            id_nivel_acesso: 1,
+            id_nivel_acesso: 3,
         }).then((data) => {
 
             return res.status(200).json(data);
