@@ -5,6 +5,8 @@ const curtir = require('../Services/curtirpostagemservices');
 const TbPostagens = require('../Models/tbpostagens').Postagens;
 const TbPostagensCurtidas = require('../Models/tbpostagenscurtidas').PostagensCurtidas;
 
+const conversor = require('../Utils/postagemutils');
+
 const publicarPostagem = async (req, res) => {
     
     try{
@@ -20,9 +22,10 @@ const publicarPostagem = async (req, res) => {
             dt_postagem: Date.now(),
             dt_ultima_alteracao: Date.now(),
             id_usuario: idUser
-        }).then((data) => {
+        }).then(async (data) => {
     
-            return res.status(200).json(data);
+            const informacoesPost = await conversor.TBpostagemparaRes(data);
+            return res.status(200).json(informacoesPost);
         })    
     }
     catch(err){
