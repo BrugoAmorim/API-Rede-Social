@@ -29,4 +29,18 @@ async function TBpostagemparaRes(obj){
     return modeloRes;
 }
 
-module.exports = { TBpostagemparaRes };
+async function listaPostagensRes(colecao){
+
+    let caixote = [];
+    for(let item = 0; item < colecao.length; item++){
+
+        const modelTB = colecao[item];
+        const modelRes = await TBpostagemparaRes(modelTB);
+
+        caixote.push(modelRes);
+    }
+
+    return caixote;
+}
+
+module.exports = { TBpostagemparaRes, listaPostagensRes };

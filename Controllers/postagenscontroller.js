@@ -67,4 +67,29 @@ const curtirPostagem = async (req, res) => {
     }
 }
 
-module.exports = { publicarPostagem, curtirPostagem };
+const feed = async (req, res) => {
+
+    try{
+        const validar = require('../Services/feedservices').buscarPostsUser;
+    
+        let buscarPostsUser = req.query.usuario;    
+        let docs = await TbPostagens.findAll({});
+    
+        if(buscarPostsUser != ''){
+            const user = await validar(buscarPostsUser);
+            docs = docs.filter(x =>  x.id_usuario == user.id_usuario);
+            
+            if(docs.length == 0)
+                return res.status(200).json({ message: "Este usuário ainda não publicou nada", code: 200});
+        }
+        
+        const Feed = await conversor.listaPostagensRes(docs);
+        return res.status(200).json(Feed);
+    }
+    catch(err){
+
+        return res.status(400).json({ message: err.message, code: 400 })
+    }
+}
+
+module.exports = { publicarPostagem, curtirPostagem, feed };
