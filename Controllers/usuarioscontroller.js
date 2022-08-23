@@ -49,4 +49,6 @@ const CriarConta = async (req, res) => {
     }
 }
 
+// Criar as funcoes de apagar e editar conta
+
 module.exports = { Login, CriarConta };
