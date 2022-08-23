@@ -5,7 +5,7 @@ const curtir = require('../Services/curtirpostagemservices');
 const TbPostagens = require('../Models/tbpostagens').Postagens;
 const TbPostagensCurtidas = require('../Models/tbpostagenscurtidas').PostagensCurtidas;
 
-const conversor = require('../Utils/postagemutils');
+const conversor = require('../Utils/feedutils');
 
 const publicarPostagem = async (req, res) => {
     
@@ -83,7 +83,7 @@ const feed = async (req, res) => {
                 return res.status(200).json({ message: "Este usuário ainda não publicou nada", code: 200});
         }
         
-        const Feed = await conversor.listaPostagensRes(docs);
+        const Feed = await conversor.MeuFeedUtils(docs);
         return res.status(200).json(Feed);
     }
     catch(err){
