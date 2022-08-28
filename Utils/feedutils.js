@@ -1,7 +1,10 @@
 
 const Comentarios = require('../Models/tbcomentarios').Comentarios;
 const Usuarios = require('../Models/tbusuarios').Usuarios;
+const ComentariosCurtidos = require('../Models/tbcomentarioscurtidos').ComentariosCurtidos;
+
 const FeedRes = require('../Models/Response/feedresponse');
+const ComentarioFeedRes = require('../Models/Response/comentariofeedresponse').comentarioFeed;
 
 const utilsPostagem = require('../Utils/postagemutils');
 
@@ -15,18 +18,19 @@ async function ModeloUnicoFeed(obj){
 
         const infoComent = buscarComents[item];
         const buscarUser = await Usuarios.findOne({ where: { id_usuario: infoComent.id_usuario }});
+        const numeroCurtidas = await ComentariosCurtidos.findAll({ where: { id_comentario: infoComent.id_comentario }});
 
-        const modelComentario = {
-            idcomentario: infoComent.id_comentario,
-            comentario: infoComent.ds_comentario,
-            ultimaalteracao: infoComent.dt_atualizacao,
-            usuario: {    
-                idusuario: buscarUser.id_usuario,
-                nome: buscarUser.nm_usuario,
-                email: buscarUser.ds_email,
-                linkweb: buscarUser.ds_link_web
-            }
-        };
+        const modelComentario = ComentarioFeedRes();
+        modelComentario.idcomentario = infoComent.id_comentario;
+        modelComentario.comentario = infoComent.ds_comentario;
+        modelComentario.ultimaalteracao = infoComent.dt_atualizacao;
+        modelComentario.curtidas = numeroCurtidas.length;
+
+        modelComentario.usuario.idusuario = buscarUser.id_usuario;
+        modelComentario.usuario.nome = buscarUser.nm_usuario;
+        modelComentario.usuario.email = buscarUser.ds_email;
+        modelComentario.usuario.datanascimento = buscarUser.dt_nascimento;
+        modelComentario.usuario.linkweb = buscarUser.ds_link_web;
 
         listaComentarios.push(modelComentario);
     }
