@@ -19,3 +19,5 @@ myapp.get('/feed', controllerPostagens.feed);
 
 // Rotas comentarios
 myapp.post('/escrever-comentario/:idPost/:idUser', controllerComentarios.escreverComentario);
+
+myapp.post('/curtir-comentario/:idComment/:idUser', controllerComentarios.curtirComentario);
