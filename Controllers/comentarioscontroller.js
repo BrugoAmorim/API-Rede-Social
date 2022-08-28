@@ -63,4 +63,22 @@ const curtirComentario = async (req, res) => {
     }
 }
 
-module.exports = { escreverComentario, curtirComentario };
+const Comentarios = async (req, res) => {
+
+    const comentarios = [];
+
+    const docs = await TbComentarios.findAll({});
+    for(let item = 0; item < docs.length; item++){
+
+        const caixote = await conversor.converterTbparaRes(docs[item]);
+
+        const curtidas = await TbComentariosCurtidos.findAll({ where: { id_comentario: caixote.idcomentario }});
+        caixote.curtidas = curtidas.length;
+
+        comentarios.push(caixote);
+    }
+
+    return res.status(200).json(comentarios);
+}
+
+module.exports = { escreverComentario, curtirComentario, Comentarios };

@@ -6,6 +6,7 @@ function comentariosRes(){
         comentario: '',
         datapublicacao: '',
         dataatualizacaocomentario: '',
+        curtidas: 0,
         usuariocomentador: {},
         postagem: {}
     }

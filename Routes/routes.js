@@ -21,3 +21,5 @@ myapp.get('/feed', controllerPostagens.feed);
 myapp.post('/escrever-comentario/:idPost/:idUser', controllerComentarios.escreverComentario);
 
 myapp.post('/curtir-comentario/:idComment/:idUser', controllerComentarios.curtirComentario);
+
+myapp.get('/buscar-comentarios', controllerComentarios.Comentarios);
