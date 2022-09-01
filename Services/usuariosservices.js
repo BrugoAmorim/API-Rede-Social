@@ -1,3 +1,4 @@
+const { info } = require('console');
 
 const TbUsuarios = require('../Models/tbusuarios').Usuarios;
 
@@ -39,4 +40,32 @@ async function validarNovaConta(req){
     return req;
 }
 
-module.exports = { validarLogin, validarNovaConta };
+async function validareditConta(body, iduser){
+
+    const Users = await TbUsuarios.findAll({});
+    const infoConta = await TbUsuarios.findOne({ where: { id_usuario: iduser }});
+    
+    if(infoConta === null)
+        throw new Error("Usuário não encontrado");
+
+    if(infoConta.ds_senha !== body.senha)
+        throw new Error("Campo senha incorreto, tente novamente para adicionar uma nova senha")
+
+    if(Users.filter(x => x.ds_email == body.email && x.id_usuario !== infoConta.id_usuario).length > 0)
+        throw new Error("Um Usuário já esta utilizando este email");
+    
+    if(Users.filter(x => x.nm_usuario == body.usuario && x.id_usuario !== infoConta.id_usuario).length > 0)
+        throw new Error("Este nome de usuário já esta sendo usado");
+
+    if(body.novasenha.length < 8)
+        throw new Error("Senha muito curta, mínimo 8 caracteres");
+
+    if(body.novasenha.length > 30)
+        throw new Error("Senha muito longa, máximo 30 caracteres");
+
+    if(body.novasenha.trim().includes(" ") === true)
+        throw new Error("Não é permitido usar caracteres especiais, somente [!-@-#-$]");
+
+}
+
+module.exports = { validarLogin, validarNovaConta, validareditConta };

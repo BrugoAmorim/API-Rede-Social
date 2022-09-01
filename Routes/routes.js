@@ -10,6 +10,8 @@ myapp.post('/login', controllerusers.Login);
 
 myapp.post('/criar-conta', controllerusers.CriarConta);
 
+myapp.put('/editar-informacoes/:idUser', controllerusers.AtualizarConta);
+
 // Rotas postagem e feed
 myapp.post('/publicar/:idUser', controllerPostagens.publicarPostagem);
 
