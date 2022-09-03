@@ -12,6 +12,8 @@ myapp.post('/criar-conta', controllerusers.CriarConta);
 
 myapp.put('/editar-informacoes/:idUser', controllerusers.AtualizarConta);
 
+myapp.delete('/excluir-conta/:idUser', controllerusers.ExcluirConta);
+
 // Rotas postagem e feed
 myapp.post('/publicar/:idUser', controllerPostagens.publicarPostagem);
 

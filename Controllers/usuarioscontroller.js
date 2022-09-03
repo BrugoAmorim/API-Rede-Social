@@ -9,11 +9,17 @@ const Login = async (req, res) => {
     try{
 
         const body = { email, senha } = req.body;
-
         const modelTB = await validacoes.validarLogin(body);
-        const modelRes = await conversor.ConverterTBparaRes(modelTB);
 
-        return res.status(200).json(modelRes);
+        await TbUsuarios.update({
+            dt_ultimo_login: new Date()
+        },{ where: { id_usuario: modelTB.id_usuario } });
+    
+        await TbUsuarios.findOne({ where: { ds_email: email, ds_senha: senha }}).then(async user => {
+    
+            const modelRes = await conversor.ConverterTBparaRes(user);
+            return res.status(200).json(modelRes);        
+        })
     }
     catch(err){
 
@@ -38,6 +44,7 @@ const CriarConta = async (req, res) => {
             dt_ultimo_login: new Date(),
             ds_link_web: itemreq.linkweb,
             id_nivel_acesso: 3,
+            ds_status_usuario: "ATIVO"
         }).then((data) => {
 
             return res.status(200).json(data);
@@ -64,7 +71,7 @@ const AtualizarConta = async (req, res) => {
             ds_senha: novasenha,
             dt_atualizacao_conta: new Date(),
             dt_nascimento: nascimento,
-            ds_link_web: linkweb  
+            ds_link_web: linkweb
         },
         {
             where: { id_usuario: idUser }
@@ -83,5 +90,24 @@ const AtualizarConta = async (req, res) => {
 
 }
 
-//funcoes: apagar conta, banir usuario
-module.exports = { Login, CriarConta, AtualizarConta };
+const ExcluirConta = async (req, res) => {
+
+    try{
+        const { idUser } = req.params;
+        const { senha } = req.body;
+
+        await validacoes.validarExcluirConta(idUser, senha);
+
+        await TbUsuarios.findOne({ where: { id_usuario: idUser } }).then(async (data) => {
+        
+            await data.destroy();
+            return res.status(200).json({ message: "Conta excluída", code: 200 });
+        })
+    }
+    catch(err){
+
+        return res.status(400).json({ message: err.message, code: 400 });
+    }
+}
+
+module.exports = { Login, CriarConta, AtualizarConta, ExcluirConta };

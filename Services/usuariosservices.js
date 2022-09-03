@@ -1,4 +1,3 @@
-const { info } = require('console');
 
 const TbUsuarios = require('../Models/tbusuarios').Usuarios;
 
@@ -7,7 +6,7 @@ async function validarLogin(req){
     const buscarUser = await TbUsuarios.findOne({ where: { ds_email: req.email }});
     
     if(buscarUser === null)
-        throw new Error("Este usuário não foi encontrado, verifique o email e tente novamente");
+        throw new Error("Este usuário não foi encontrado. Verifique o email e tente novamente");
 
     if(buscarUser.ds_senha !== req.senha)
         throw new Error("Senha de acesso incorreta");
@@ -68,4 +67,16 @@ async function validareditConta(body, iduser){
 
 }
 
-module.exports = { validarLogin, validarNovaConta, validareditConta };
+async function validarExcluirConta(iduser, senha){
+
+    const usuario = await TbUsuarios.findOne({ where: { id_usuario: iduser }});
+
+    if(usuario === null)
+        throw new Error("Conta não encontrada");
+
+    if(usuario.ds_senha !== senha)
+        throw new Error("A senha não coincide com a conta");
+
+}
+
+module.exports = { validarLogin, validarNovaConta, validareditConta, validarExcluirConta };
