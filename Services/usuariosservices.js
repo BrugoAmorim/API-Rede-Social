@@ -22,6 +22,9 @@ async function validarNovaConta(req){
 
     const Usuarios = await TbUsuarios.findAll({});
     
+    req.usuario = req.usuario.trim();
+    req.usuario = req.usuario.split(" ").join("_");
+
     if(Usuarios.filter(x => x.ds_email == req.email).length > 0)
         throw new Error("Um Usuário já esta utilizando este email");
     
