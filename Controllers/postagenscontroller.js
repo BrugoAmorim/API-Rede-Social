@@ -93,4 +93,5 @@ const feed = async (req, res) => {
 }
 
 // criar as funcoes de editar postagem e apagar postagem
+
 module.exports = { publicarPostagem, curtirPostagem, feed };

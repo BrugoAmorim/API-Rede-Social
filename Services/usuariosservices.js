@@ -1,5 +1,6 @@
 
 const TbUsuarios = require('../Models/tbusuarios').Usuarios;
+const TbNiveis = require('../Models/tbniveis').Niveis;
 
 async function validarLogin(req){
     
@@ -12,7 +13,7 @@ async function validarLogin(req){
         throw new Error("Senha de acesso incorreta");
         
     if(buscarUser.ds_status_usuario === "BANIDO")
-        throw new Error("Este usuário foi banido do site permanentemente, por favor tente outro");
+        throw new Error("Este usuário foi banido do site, por favor tente outro");
 
     return buscarUser;
 }
@@ -79,4 +80,31 @@ async function validarExcluirConta(iduser, senha){
 
 }
 
-module.exports = { validarLogin, validarNovaConta, validareditConta, validarExcluirConta };
+async function validarBanimentoUsuario(idadmin, iduser){
+
+    const Admin = await TbUsuarios.findOne({ where: { id_usuario: idadmin }});
+    const User = await TbUsuarios.findOne({ where: { id_usuario: iduser }});
+
+    if(Admin === null)
+        throw new Error("Este administrador não foi encontrado");
+
+    if(User === null)
+        throw new Error("Este usuário não foi encontrado");
+
+    const nvlAdmin = await TbNiveis.findOne({ where: { id_nivel_acesso: Admin.id_nivel_acesso }});
+
+    if(nvlAdmin.ds_permissoes.includes("banir-contas") === false)
+        throw new Error("Você não tem permissão para banir usuários");
+
+    if(Admin.id_usuario === User.id_usuario)
+        throw new Error("Você não pode se banir");
+
+    if(Admin.id_nivel_acesso === User.id_nivel_acesso)
+        throw new Error("Não é possivel banir outros administradores do site");
+
+    if(User.ds_status_usuario === "BANIDO")
+        throw new Error("O usuário " + User.nm_usuario + " já foi banido do site");    
+
+}
+
+module.exports = { validarLogin, validarNovaConta, validareditConta, validarExcluirConta, validarBanimentoUsuario };

@@ -81,4 +81,6 @@ const Comentarios = async (req, res) => {
     return res.status(200).json(comentarios);
 }
 
+// criar funcoes de editar comentario e apagar comentario
+
 module.exports = { escreverComentario, curtirComentario, Comentarios };
