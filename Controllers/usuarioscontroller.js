@@ -131,4 +131,27 @@ const BanirUsuario = async (req, res) => {
         return res.status(400).json({ message: err.message, code: 400 });
     }
 }
-module.exports = { Login, CriarConta, AtualizarConta, ExcluirConta, BanirUsuario };
+
+const DesbanirUsuario = async (req, res) => {
+    
+    try{
+        const { idAdmin, idUser } = req.params;
+        await validacoes.validarRemocaoBanimento(idAdmin, idUser);
+
+        await TbUsuarios.update({
+            ds_status_usuario: "ATIVO"
+        }, { where: { id_usuario: idUser }});
+
+        await TbUsuarios.findOne({ where: { id_usuario: idUser }}).then(async(data) => {
+
+            const caixote = await conversor.ConverterTBparaRes(data);
+            return res.status(200).json(caixote);
+        })
+    }
+    catch(err){
+
+        return res.status(400).json({ message: err.message, code: 400 })
+    }
+}
+
+module.exports = { Login, CriarConta, AtualizarConta, ExcluirConta, BanirUsuario, DesbanirUsuario };

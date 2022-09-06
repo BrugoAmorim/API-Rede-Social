@@ -110,4 +110,30 @@ async function validarBanimentoUsuario(idadmin, iduser){
 
 }
 
-module.exports = { validarLogin, validarNovaConta, validareditConta, validarExcluirConta, validarBanimentoUsuario };
+async function validarRemocaoBanimento(idadmin, iduser){
+    
+    const Admin = await TbUsuarios.findOne({ where: { id_usuario: idadmin }});
+    const User = await TbUsuarios.findOne({ where: { id_usuario: iduser }});
+
+    if(Admin === null)
+        throw new Error("Este administrador não foi encontrado");
+
+    if(User === null)
+        throw new Error("Este usuário não foi encontrado");
+
+    const nvlAdmin = await TbNiveis.findOne({ where: { id_nivel_acesso: Admin.id_nivel_acesso }});
+
+    if(nvlAdmin.ds_permissoes.includes("banir-contas") === false)
+        throw new Error("Você não tem permissão para desbanir usuários");
+
+    if(Admin.id_usuario === User.id_usuario)
+        throw new Error("usuário inválido");
+
+    if(User.ds_status_usuario === "ATIVO")
+        throw new Error("O usuário " + User.nm_usuario + " já foi desbanido do site");  
+}
+
+module.exports = { 
+    validarLogin, validarNovaConta, validareditConta, 
+    validarExcluirConta, validarBanimentoUsuario, validarRemocaoBanimento 
+};
