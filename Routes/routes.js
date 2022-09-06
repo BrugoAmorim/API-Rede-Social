@@ -18,12 +18,16 @@ myapp.put('/banir-conta/:idAdmin/:idUser', controllerusers.BanirUsuario);
 
 myapp.put('/desbanir-conta/:idAdmin/:idUser', controllerusers.DesbanirUsuario);
 
+
 // Rotas postagem e feed
 myapp.post('/publicar/:idUser', controllerPostagens.publicarPostagem);
 
 myapp.post('/curtir-post/:idPost/:idUser', controllerPostagens.curtirPostagem);
 
-myapp.get('/feed', controllerPostagens.feed);
+myapp.get('/feed', controllerPostagens.Feed);
+
+myapp.put('/editar-postagem/:idUser/:idPost', controllerPostagens.editarPostagem);
+
 
 // Rotas comentarios
 myapp.post('/escrever-comentario/:idPost/:idUser', controllerComentarios.escreverComentario);

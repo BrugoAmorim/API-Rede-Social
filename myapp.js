@@ -10,5 +10,5 @@ module.exports = { myapp }
 myapp.listen(3000, () => {
 
     console.log("Server Connected!");
-    console.log("Url: http://localhost:3000/");
+    console.log("Url: http://localhost:3000/feed?usuario=");
 })

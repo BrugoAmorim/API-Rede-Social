@@ -6,6 +6,7 @@ const TbPostagens = require('../Models/tbpostagens').Postagens;
 const TbPostagensCurtidas = require('../Models/tbpostagenscurtidas').PostagensCurtidas;
 
 const conversor = require('../Utils/feedutils');
+const postagemUtils = require('../Utils/postagemutils');
 
 const publicarPostagem = async (req, res) => {
     
@@ -24,7 +25,7 @@ const publicarPostagem = async (req, res) => {
             id_usuario: idUser
         }).then(async (data) => {
     
-            const informacoesPost = await conversor.TBpostagemparaRes(data);
+            const informacoesPost = await postagemUtils.TBpostagemparaRes(data);
             return res.status(200).json(informacoesPost);
         })    
     }
@@ -67,7 +68,7 @@ const curtirPostagem = async (req, res) => {
     }
 }
 
-const feed = async (req, res) => {
+const Feed = async (req, res) => {
 
     try{
         const validar = require('../Services/feedservices').buscarPostsUser;
@@ -92,6 +93,32 @@ const feed = async (req, res) => {
     }
 }
 
+const editarPostagem = async (req, res) => {
+
+    try{
+        const { idUser, idPost } = req.params;
+        const body = { titulo, conteudo } = req.body;
+
+        await validar.validarEditPost(body, idUser, idPost);
+        await TbPostagens.update({
+
+            nm_titulo: titulo,
+            ds_conteudo: conteudo,
+            dt_ultima_alteracao: new Date()
+        }, { where: { id_postagem: idPost }});
+
+        await TbPostagens.findOne({ where: { id_postagem: idPost }}).then(async data => {
+
+            const caixoteRes = await postagemUtils.TBpostagemparaRes(data);
+            return res.status(200).json(caixoteRes);
+        })
+    }
+    catch(err){
+
+        return res.status(400).json({ message: err.message, code: 400 });
+    }
+}
+
 // criar as funcoes de editar postagem e apagar postagem
 
-module.exports = { publicarPostagem, curtirPostagem, feed };
+module.exports = { publicarPostagem, curtirPostagem, Feed, editarPostagem };
