@@ -119,6 +119,24 @@ const editarPostagem = async (req, res) => {
     }
 }
 
-// criar as funcoes de editar postagem e apagar postagem
+const excluirPost = async (req, res) => {
 
-module.exports = { publicarPostagem, curtirPostagem, Feed, editarPostagem };
+    try{
+        const TbComentarios = require('../Models/tbcomentarios').Comentarios;
+
+        const { idUser, idPost } = req.params;
+        await validar.validarExclusaoPost(idUser, idPost);
+
+        await TbPostagensCurtidas.destroy({ where: { id_postagem: idPost } });
+        await TbComentarios.destroy({ where: { id_postagem: idPost }});
+        await TbPostagens.destroy({ where: { id_postagem: idPost }}); 
+
+        return res.status(200).json({ message: "Postagem excluída com êxito", code: 200 });        
+    }
+    catch(err){
+
+        return res.status(400).json({ message: err.message, code: 400 });
+    }
+}
+
+module.exports = { publicarPostagem, curtirPostagem, Feed, editarPostagem, excluirPost };

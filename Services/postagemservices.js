@@ -36,4 +36,19 @@ async function validarEditPost(bodyform, idUser, idPostagem){
 
 }
 
-module.exports = { novoPost, validarEditPost };
+async function validarExclusaoPost(idUser, idPost){
+
+    const User = await Usuarios.findOne({ where: { id_usuario: idUser }});
+    const Post = await Postagens.findOne({ where: { id_postagem: idPost }});  
+
+    if(User === null)
+        throw new Error("Usuário não encontrado");
+
+    if(Post === null)
+        throw new Error("Postagem não encontrada");
+
+    if(Post.id_usuario !== User.id_usuario)
+        throw new Error("Você não pode apagar uma postagem que é de outro usuário");
+}
+
+module.exports = { novoPost, validarEditPost, validarExclusaoPost };

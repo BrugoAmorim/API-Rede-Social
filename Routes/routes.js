@@ -28,6 +28,7 @@ myapp.get('/feed', controllerPostagens.Feed);
 
 myapp.put('/editar-postagem/:idUser/:idPost', controllerPostagens.editarPostagem);
 
+myapp.delete('/excluir-postagem/:idUser/:idPost', controllerPostagens.excluirPost);
 
 // Rotas comentarios
 myapp.post('/escrever-comentario/:idPost/:idUser', controllerComentarios.escreverComentario);
