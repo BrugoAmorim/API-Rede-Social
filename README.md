@@ -15,8 +15,8 @@ Neste sistema será elaborado uma API de uma rede social utilizando node express
 - [x] Comentar
 - [x] Curtir Comentário
 - [x] ver Comentários
-- [ ] Excluir Postagem
-- [ ] Editar Comentário
-- [ ] Apagar Comentário
+- [x] Excluir Postagem
+- [x] Editar Comentário
+- [x] Apagar Comentário
 - [ ] Apagar Publicação do Usuário (Administradores e Moderadores)
 - [ ] Apagar Comentário do Usuário (Administradores e Moderadores)
