@@ -81,6 +81,29 @@ const Comentarios = async (req, res) => {
     return res.status(200).json(comentarios);
 }
 
-// criar funcoes de editar comentario e apagar comentario
+const editarComentario = async (req, res) => {
 
-module.exports = { escreverComentario, curtirComentario, Comentarios };
+    try{
+        const { idUser, idComment } = req.params;
+        const { comentario } = req.body;
+
+        await validar.editarComentario(comentario, idComment, idUser);
+        await TbComentarios.update({
+            
+            ds_comentario: comentario,
+            dt_atualizacao: new Date()
+        }, { where: { id_comentario: idComment } })
+
+        await TbComentarios.findOne({ where: { id_comentario: idComment }}).then(async Comment => {
+
+            const caixote = await conversor.converterTbparaRes(Comment);
+            return res.status(200).json(caixote);
+        })
+    }
+    catch(err){
+
+        return res.status(400).json({ message: err.message, code: 400});
+    }
+}
+
+module.exports = { escreverComentario, curtirComentario, Comentarios, editarComentario };

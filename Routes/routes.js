@@ -30,9 +30,12 @@ myapp.put('/editar-postagem/:idUser/:idPost', controllerPostagens.editarPostagem
 
 myapp.delete('/excluir-postagem/:idUser/:idPost', controllerPostagens.excluirPost);
 
+
 // Rotas comentarios
 myapp.post('/escrever-comentario/:idPost/:idUser', controllerComentarios.escreverComentario);
 
 myapp.post('/curtir-comentario/:idComment/:idUser', controllerComentarios.curtirComentario);
 
 myapp.get('/buscar-comentarios', controllerComentarios.Comentarios);
+
+myapp.put('/editar-comentario/:idUser/:idComment', controllerComentarios.editarComentario);
