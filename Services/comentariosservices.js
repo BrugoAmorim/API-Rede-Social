@@ -38,4 +38,19 @@ async function editarComentario(comment, idcomment, iduser){
         throw new Error("Você não pode editar o comentário de outro usuário");
 }
 
-module.exports = { novoComentario, editarComentario };
+async function apagarComentario(iduser, idcomment){
+
+    const BuscarComment = await Comentarios.findOne({ where: { id_comentario: idcomment}});
+    const BuscarUser = await Usuarios.findOne({ where: { id_usuario: iduser }});
+
+    if(BuscarComment === null)
+        throw new Error("Comentário não encontrado");
+
+    if(BuscarUser === null)
+        throw new Error("Este usuário não existe");
+
+    if(BuscarUser.id_usuario !== BuscarComment.id_usuario)
+        throw new Error("Voce não pode excluir este comentário")
+}
+
+module.exports = { novoComentario, editarComentario, apagarComentario };

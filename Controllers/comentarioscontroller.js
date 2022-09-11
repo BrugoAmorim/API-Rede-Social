@@ -106,4 +106,21 @@ const editarComentario = async (req, res) => {
     }
 }
 
-module.exports = { escreverComentario, curtirComentario, Comentarios, editarComentario };
+const apagarComentario = async (req, res) => {
+
+    try{
+        const { idUser, idComment } = req.params;
+        await validar.apagarComentario(idUser, idComment);
+    
+        await TbComentarios.destroy({ where: { id_usuario: idUser, id_comentario: idComment }}).then(() => {
+
+            return res.status(200).json({ message: "Comentário excluído com êxito", code: 200 });
+        })
+    }
+    catch(err){
+
+        return res.status(400).json({ message: err.message, code: 400 });
+    }
+}
+
+module.exports = { escreverComentario, curtirComentario, Comentarios, editarComentario, apagarComentario };

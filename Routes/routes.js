@@ -39,3 +39,5 @@ myapp.post('/curtir-comentario/:idComment/:idUser', controllerComentarios.curtir
 myapp.get('/buscar-comentarios', controllerComentarios.Comentarios);
 
 myapp.put('/editar-comentario/:idUser/:idComment', controllerComentarios.editarComentario);
+
+myapp.delete('/excluir-comentario/:idUser/:idComment', controllerComentarios.apagarComentario);
