@@ -8,6 +8,7 @@ function PostagemRes(){
         dataPostagem: '',
         dataultimaAlteracao: '',
         numeroCurtidas: 0,
+        statuspostagem: '',
         usuarioPublicador: {},
     };
 }

@@ -22,6 +22,7 @@ async function TBpostagemparaRes(obj){
     modeloRes.conteudo = obj.ds_conteudo;
     modeloRes.dataPostagem = obj.dt_postagem;
     modeloRes.dataultimaAlteracao = obj.dt_ultima_alteracao;
+    modeloRes.statuspostagem = obj.ds_status_postagem;
     modeloRes.usuarioPublicador = infoUser;
 
     const nrCuritdas = await PostagensCurtidas.findAll({ where: { id_postagem: obj.id_postagem }});

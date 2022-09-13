@@ -25,6 +25,11 @@ const Postagens = conexaodb.define('Tb_Postagens', {
     dt_ultima_alteracao: {
         type: Sequelize.DATE
     },
+    ds_status_postagem: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: "ATIVO"
+    },
     id_usuario: {
         type: Sequelize.INTEGER
     }

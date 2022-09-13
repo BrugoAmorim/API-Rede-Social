@@ -4,6 +4,7 @@ const { myapp } = require('../myapp');
 const controllerusers = require('../Controllers/usuarioscontroller');
 const controllerPostagens = require('../Controllers/postagenscontroller');
 const controllerComentarios = require('../Controllers/comentarioscontroller');
+const controllerAdmeMod = require('../Controllers/admemodcontrollers');
 
 // Rotas do usuario
 myapp.post('/login', controllerusers.Login);
@@ -41,3 +42,7 @@ myapp.get('/buscar-comentarios', controllerComentarios.Comentarios);
 myapp.put('/editar-comentario/:idUser/:idComment', controllerComentarios.editarComentario);
 
 myapp.delete('/excluir-comentario/:idUser/:idComment', controllerComentarios.apagarComentario);
+
+
+// Rotas Administradores e Moderadores
+myapp.put('/arquivar-postagem/:idAdminouMod/:idPost', controllerAdmeMod.arquivarPostagemUsuario);
