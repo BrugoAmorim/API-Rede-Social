@@ -139,6 +139,4 @@ const excluirPost = async (req, res) => {
     }
 }
 
-// criar funcao ArquivarminhasPostagens e DesarquivarminhasPostagensb
-
 module.exports = { publicarPostagem, curtirPostagem, Feed, editarPostagem, excluirPost };

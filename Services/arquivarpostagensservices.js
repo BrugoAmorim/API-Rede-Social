@@ -29,4 +29,32 @@ async function arquivarPost(idAdminouMod, idPost){
         throw new Error("Esta postagem já foi arquivada");
 }
 
-module.exports = { arquivarPost };
+async function desarquivarPostagem(idAdminouMod, idPost){
+   
+    const infoUsuario = await Usuarios.findOne({ where: { id_usuario: idAdminouMod }});
+    const Post = await Postagens.findOne({ where: { id_postagem: idPost }});
+
+    if(infoUsuario === null)
+        throw new Error("Este usuário não foi encontrado");
+
+    if(Post === null)
+        throw new Error("Postagem não encontrada");
+
+    const UsuarioPublicador = await Usuarios.findOne({ where: { id_usuario: Post.id_usuario }});
+
+    if(infoUsuario.id_nivel_acesso === 1 && UsuarioPublicador.id_nivel_acesso === 1 && 
+            infoUsuario.id_usuario !== UsuarioPublicador.id_usuario)
+        throw new Error("Você não pode desarquivar postagens de outro administrador");
+
+    if(infoUsuario.id_nivel_acesso === 2 && UsuarioPublicador.id_nivel_acesso === 1)
+        throw new Error("Você não tem permissão para desarquivar postagens de administradores");
+
+    if(infoUsuario.id_nivel_acesso > 2)
+        throw new Error("Você não tem permissão para desarquivar postagens de outro usuário");
+    
+    if(Post.ds_status_postagem === "ATIVO")
+        throw new Error("Essa postagem já foi desarquivada");
+
+}
+
+module.exports = { arquivarPost, desarquivarPostagem };

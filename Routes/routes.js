@@ -11,38 +11,39 @@ myapp.post('/login', controllerusers.Login);
 
 myapp.post('/criar-conta', controllerusers.CriarConta);
 
-myapp.put('/editar-informacoes/:idUser', controllerusers.AtualizarConta);
+myapp.put('/conta/editar/:idUser', controllerusers.AtualizarConta);
 
-myapp.delete('/excluir-conta/:idUser', controllerusers.ExcluirConta);
-
-myapp.put('/banir-conta/:idAdmin/:idUser', controllerusers.BanirUsuario);
-
-myapp.put('/desbanir-conta/:idAdmin/:idUser', controllerusers.DesbanirUsuario);
-
+myapp.delete('/conta/excluir/:idUser', controllerusers.ExcluirConta);
 
 // Rotas postagem e feed
-myapp.post('/publicar/:idUser', controllerPostagens.publicarPostagem);
-
-myapp.post('/curtir-post/:idPost/:idUser', controllerPostagens.curtirPostagem);
-
 myapp.get('/feed', controllerPostagens.Feed);
 
-myapp.put('/editar-postagem/:idUser/:idPost', controllerPostagens.editarPostagem);
+myapp.post('/postagem/publicar/:idUser', controllerPostagens.publicarPostagem);
 
-myapp.delete('/excluir-postagem/:idUser/:idPost', controllerPostagens.excluirPost);
+myapp.put('/postagem/editar/:idUser/:idPost', controllerPostagens.editarPostagem);
+
+myapp.post('/postagem/curtir/:idPost/:idUser', controllerPostagens.curtirPostagem);
+
+myapp.delete('/postagem/excluir/:idUser/:idPost', controllerPostagens.excluirPost);
 
 
 // Rotas comentarios
-myapp.post('/escrever-comentario/:idPost/:idUser', controllerComentarios.escreverComentario);
+myapp.get('/comentarios/buscar', controllerComentarios.Comentarios);
 
-myapp.post('/curtir-comentario/:idComment/:idUser', controllerComentarios.curtirComentario);
+myapp.put('/comentario/editar/:idUser/:idComment', controllerComentarios.editarComentario);
 
-myapp.get('/buscar-comentarios', controllerComentarios.Comentarios);
+myapp.post('/comentario/curtir/:idComment/:idUser', controllerComentarios.curtirComentario);
 
-myapp.put('/editar-comentario/:idUser/:idComment', controllerComentarios.editarComentario);
+myapp.post('/comentario/escrever/:idPost/:idUser', controllerComentarios.escreverComentario);
 
-myapp.delete('/excluir-comentario/:idUser/:idComment', controllerComentarios.apagarComentario);
+myapp.delete('/comentario/excluir/:idUser/:idComment', controllerComentarios.apagarComentario);
 
 
 // Rotas Administradores e Moderadores
-myapp.put('/arquivar-postagem/:idAdminouMod/:idPost', controllerAdmeMod.arquivarPostagemUsuario);
+myapp.put('/administrador/banir/:idAdmin/:idUser', controllerusers.BanirUsuario);
+
+myapp.put('/administrador/desbanir/:idAdmin/:idUser', controllerusers.DesbanirUsuario);
+
+myapp.put('/moderador/arquivar-postagem/:idAdminouMod/:idPost', controllerAdmeMod.arquivarPostagemUsuario);
+
+myapp.put('/moderador/desarquivar-postagem/:idAdminouMod/:idPost', controllerAdmeMod.desarquivarPostagemUsuario);
