@@ -1,9 +1,11 @@
 
 
-const validacoes = require('../Services/arquivarpostagensservices');
-const TbPostagens = require('../Models/tbpostagens').Postagens;
+const validacoes = require('../Services/arquivarservices');
+const postsUtils = require('../Utils/feedutils');
+const commentsUtils = require('../Utils/comentariosutils');
 
-const conversor = require('../Utils/feedutils');
+const TbPostagens = require('../Models/tbpostagens').Postagens;
+const TbComentarios = require('../Models/tbcomentarios').Comentarios;
 
 const arquivarPostagemUsuario = async (req, res) => {
 
@@ -18,7 +20,7 @@ const arquivarPostagemUsuario = async (req, res) => {
 
         await TbPostagens.findOne({ where: { id_postagem: idPost } }).then(async postArquivado => {
 
-            const caixote = await conversor.ModeloUnicoFeed(postArquivado);
+            const caixote = await postsUtils.ModeloUnicoFeed(postArquivado);
             return res.status(200).json(caixote);
         })
     }
@@ -41,7 +43,7 @@ const desarquivarPostagemUsuario = async (req, res) => {
         }, { where: { id_postagem: idPost } });
 
         const postDesarquivado = await TbPostagens.findOne({ where: { id_postagem: idPost } });
-        conversor.ModeloUnicoFeed(postDesarquivado).then(caixoteres => {
+        postsUtils.ModeloUnicoFeed(postDesarquivado).then(caixoteres => {
 
             return res.status(200).json(caixoteres);
         })
@@ -53,4 +55,29 @@ const desarquivarPostagemUsuario = async (req, res) => {
 
 }
 
-module.exports = { arquivarPostagemUsuario, desarquivarPostagemUsuario };
+const arquivarComentarioUsuario = async(req, res) => {
+
+    try{
+        const { idAdminouMod, idComment } = req.params;
+        await validacoes.arquivarComentario(idAdminouMod, idComment);
+
+        await TbComentarios.update({
+            ds_status_comentario: "ARQUIVADO"
+        }, 
+        {
+            where: { id_comentario: idComment }
+        });
+
+        const comentario = await TbComentarios.findOne({ where: { id_comentario: idComment }});
+        await commentsUtils.converterTbparaRes(comentario).then(caixoteres => {
+
+            return res.status(200).json(caixoteres);
+        })
+    }
+    catch(err){
+
+        return res.status(400).json({ message: err.message, code: 400 });
+    }
+}
+
+module.exports = { arquivarPostagemUsuario, desarquivarPostagemUsuario, arquivarComentarioUsuario };

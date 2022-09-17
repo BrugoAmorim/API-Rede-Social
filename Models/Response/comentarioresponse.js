@@ -7,6 +7,7 @@ function comentariosRes(){
         datapublicacao: '',
         dataatualizacaocomentario: '',
         curtidas: 0,
+        statuscomentario: '',
         usuariocomentador: {},
         postagem: {}
     }

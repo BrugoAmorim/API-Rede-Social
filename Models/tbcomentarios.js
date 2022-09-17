@@ -24,6 +24,11 @@ const Comentarios = conexaodb.define('tb_comentarios', {
         type: Sequelize.DATE,
         default: new Date()
     },
+    ds_status_comentario: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: "ATIVO"
+    },
     id_usuario: {
         type: Sequelize.INTEGER
     },

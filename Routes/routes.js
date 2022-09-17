@@ -47,3 +47,5 @@ myapp.put('/administrador/desbanir/:idAdmin/:idUser', controllerusers.DesbanirUs
 myapp.put('/moderador/arquivar-postagem/:idAdminouMod/:idPost', controllerAdmeMod.arquivarPostagemUsuario);
 
 myapp.put('/moderador/desarquivar-postagem/:idAdminouMod/:idPost', controllerAdmeMod.desarquivarPostagemUsuario);
+
+myapp.put('/moderador/arquivar-comentario/:idAdminouMod/:idComment', controllerAdmeMod.arquivarComentarioUsuario);

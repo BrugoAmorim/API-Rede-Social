@@ -1,6 +1,7 @@
 
 const Postagens = require('../Models/tbpostagens').Postagens;
 const Usuarios = require('../Models/tbusuarios').Usuarios;
+const Comentarios = require('../Models/tbcomentarios').Comentarios;
 
 async function arquivarPost(idAdminouMod, idPost){
 
@@ -57,4 +58,31 @@ async function desarquivarPostagem(idAdminouMod, idPost){
 
 }
 
-module.exports = { arquivarPost, desarquivarPostagem };
+async function arquivarComentario(idAdminouMod, idComment){
+
+    const comment = await Comentarios.findOne({ where: { id_comentario: idComment }});
+    const AdmOrMOd = await Usuarios.findOne({ where: { id_usuario: idAdminouMod }});
+
+    if(comment === null)
+        throw new Error("Comentario não encontrado");
+
+    if(AdmOrMOd === null)
+        throw new Error("Usuário não encontrado");
+
+    const infoUserComment = await Usuarios.findOne({ where: { id_usuario: comment.id_usuario }});
+
+    if(AdmOrMOd.id_nivel_acesso === 1 && infoUserComment.id_nivel_acesso === 1 &&
+        AdmOrMOd.id_usuario !== comment.id_usuario)
+        throw new Error("Você não pode arquivar comentários de outros administradores");
+
+    if(AdmOrMOd.id_nivel_acesso === 2 && infoUserComment.id_nivel_acesso === 1)
+        throw new Error("Você não pode arquivar o comentário de um administrador");
+
+    if(AdmOrMOd.id_nivel_acesso > 2)
+        throw new Error("Você não tem permissão para arquivar comentários");
+
+    if(comment.ds_status_comentario === "ARQUIVADO")
+        throw new Error("Esse comentário já foi arquivado");
+}
+
+module.exports = { arquivarPost, desarquivarPostagem, arquivarComentario };

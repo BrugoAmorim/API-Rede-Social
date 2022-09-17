@@ -24,6 +24,7 @@ async function converterTbparaRes(obj){
     comentarioRes.comentario = obj.ds_comentario;
     comentarioRes.datapublicacao = obj.dt_publicacao;
     comentarioRes.dataatualizacaocomentario = obj.dt_atualizacao;
+    comentarioRes.statuscomentario = obj.ds_status_comentario;
     comentarioRes.usuariocomentador = infoUser;
     comentarioRes.postagem = infoPost;
 
