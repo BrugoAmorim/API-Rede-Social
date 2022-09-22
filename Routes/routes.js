@@ -49,3 +49,5 @@ myapp.put('/moderador/arquivar-postagem/:idAdminouMod/:idPost', controllerAdmeMo
 myapp.put('/moderador/desarquivar-postagem/:idAdminouMod/:idPost', controllerAdmeMod.desarquivarPostagemUsuario);
 
 myapp.put('/moderador/arquivar-comentario/:idAdminouMod/:idComment', controllerAdmeMod.arquivarComentarioUsuario);
+
+myapp.put('/moderador/desarquivar-comentario/:idAdminouMod/:idComment', controllerAdmeMod.desarquivarComentarioUsuario);

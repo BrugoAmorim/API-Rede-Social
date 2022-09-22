@@ -80,4 +80,30 @@ const arquivarComentarioUsuario = async(req, res) => {
     }
 }
 
-module.exports = { arquivarPostagemUsuario, desarquivarPostagemUsuario, arquivarComentarioUsuario };
+const desarquivarComentarioUsuario = async (req, res) => {
+
+    try{
+        
+        const { idAdminouMod, idComment } = req.params;    
+        await validacoes.desarquivarComentario(idAdminouMod, idComment);
+
+        await TbComentarios.update({
+            ds_status_comentario: "ATIVO"
+        }, 
+        {
+            where: { id_comentario: idComment }
+        });
+
+        await TbComentarios.findOne({ where: { id_comentario: idComment }}).then(async comment => {
+
+            const caixoteres = await commentsUtils.converterTbparaRes(comment);
+            return res.status(200).json(caixoteres);
+        })
+    }
+    catch(err){
+
+        return res.status(400).json({ message: err.message, code: 400 });
+    }
+}
+
+module.exports = { arquivarPostagemUsuario, desarquivarPostagemUsuario, arquivarComentarioUsuario, desarquivarComentarioUsuario };

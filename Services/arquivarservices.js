@@ -85,4 +85,31 @@ async function arquivarComentario(idAdminouMod, idComment){
         throw new Error("Esse comentário já foi arquivado");
 }
 
-module.exports = { arquivarPost, desarquivarPostagem, arquivarComentario };
+async function desarquivarComentario(idAdminouMod, idComment){
+    
+    const comment = await Comentarios.findOne({ where: { id_comentario: idComment }});
+    const AdmOrMOd = await Usuarios.findOne({ where: { id_usuario: idAdminouMod }});
+
+    if(comment === null)
+        throw new Error("Esse comentário não foi encontrado");
+
+    if(AdmOrMOd === null)
+        throw new Error("Esse usuário não foi encontrado");
+
+    const infoUserComment = await Usuarios.findOne({ where: { id_usuario: comment.id_usuario }});
+
+    if(AdmOrMOd.id_nivel_acesso === 1 && infoUserComment.id_nivel_acesso === 1 &&
+        AdmOrMOd.id_usuario !== comment.id_usuario)
+        throw new Error("Você não pode desarquivar o comentário de outro administradore");
+
+    if(AdmOrMOd.id_nivel_acesso === 2 && infoUserComment.id_nivel_acesso === 1)
+        throw new Error("Você não pode desarquivar o comentário de um administrador");
+
+    if(AdmOrMOd.id_nivel_acesso > 2)
+        throw new Error("Você não tem permissão para realizar está operação");
+
+    if(comment.ds_status_comentario === "ATIVO")
+        throw new Error("Esse comentário já foi desarquivado");
+}
+
+module.exports = { arquivarPost, desarquivarPostagem, arquivarComentario, desarquivarComentario };
