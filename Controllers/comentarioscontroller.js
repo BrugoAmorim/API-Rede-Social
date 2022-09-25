@@ -67,7 +67,7 @@ const Comentarios = async (req, res) => {
 
     const comentarios = [];
 
-    const docs = await TbComentarios.findAll({});
+    const docs = await TbComentarios.findAll({ where: { ds_status_comentario: "ATIVO" } });
     for(let item = 0; item < docs.length; item++){
 
         const caixote = await conversor.converterTbparaRes(docs[item]);

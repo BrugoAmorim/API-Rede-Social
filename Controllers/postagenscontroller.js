@@ -74,7 +74,7 @@ const Feed = async (req, res) => {
         const validar = require('../Services/feedservices').buscarPostsUser;
     
         let buscarPostsUser = req.query.usuario;    
-        let docs = await TbPostagens.findAll({});
+        let docs = await TbPostagens.findAll({ where: { ds_status_postagem: "ATIVO"}});
     
         if(buscarPostsUser != ''){
             const user = await validar(buscarPostsUser);

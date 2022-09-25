@@ -13,7 +13,10 @@ async function ModeloUnicoFeed(obj){
     const infoPost = await utilsPostagem.TBpostagemparaRes(obj);
     const listaComentarios = [];
 
-    const buscarComents = await Comentarios.findAll({ where: { id_postagem: infoPost.idpostagem }});
+    const buscarComents = await Comentarios.findAll({ 
+        where: { id_postagem: infoPost.idpostagem,
+                 ds_status_comentario: "ATIVO" }});
+
     for(let item = 0; item < buscarComents.length; item++){
 
         const infoComent = buscarComents[item];
