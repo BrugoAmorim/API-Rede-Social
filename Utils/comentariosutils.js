@@ -3,6 +3,7 @@ const Usuarios = require('../Models/tbusuarios').Usuarios;
 const Postagens = require('../Models/tbpostagens').Postagens;
 
 const criarModel = require('../Models/Response/comentarioresponse');
+const criarModelUser = require('../Models/Response/usuariosimplesresponse');
 const utilspostagem = require('../Utils/postagemutils');
 
 async function converterTbparaRes(obj){
@@ -11,14 +12,14 @@ async function converterTbparaRes(obj){
     const infoPost = await utilspostagem.TBpostagemparaRes(buscarPost);
 
     const buscarUser = await Usuarios.findOne({ where: { id_usuario: obj.id_usuario } });
-    const infoUser = {
-        idusuario: buscarUser.id_usuario,
-        nome: buscarUser.nm_usuario,
-        email: buscarUser.ds_email,
-        datanascimento: buscarUser.dt_nascimento,
-        linkweb: buscarUser.ds_link_web
-    }
-
+    
+    const infoUser = criarModelUser.UsuarioSimplesRes();
+    infoUser.idUsuario = buscarUser.id_usuario;
+    infoUser.nome = buscarUser.nm_usuario;
+    infoUser.email = buscarUser.ds_email;
+    infoUser.datanascimento = buscarUser.dt_nascimento;
+    infoUser.linkweb = buscarUser.ds_link_web;
+    
     const comentarioRes = criarModel.comentariosRes();
     comentarioRes.idcomentario = obj.id_comentario
     comentarioRes.comentario = obj.ds_comentario;

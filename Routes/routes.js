@@ -26,6 +26,8 @@ myapp.post('/postagem/curtir/:idPost/:idUser', controllerPostagens.curtirPostage
 
 myapp.delete('/postagem/excluir/:idUser/:idPost', controllerPostagens.excluirPost);
 
+myapp.get('/postagem/quemcurtiu/:idPost', controllerPostagens.QuemCurtiu);
+
 
 // Rotas comentarios
 myapp.get('/comentarios/buscar', controllerComentarios.Comentarios);
