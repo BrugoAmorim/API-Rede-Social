@@ -1,5 +1,7 @@
 
 const TbNiveis = require('../Models/tbniveis').Niveis;
+const TbUsuarios = require('../Models/tbusuarios').Usuarios;
+
 const criarobjeto = require('../Models/Response/userresponse');
 
 async function ConverterTBparaRes(obj){
@@ -21,4 +23,33 @@ async function ConverterTBparaRes(obj){
     return modelRes;
 }
 
-module.exports = { ConverterTBparaRes };
+function TbUserparaModelSimples(obj){
+
+    const ModelUser = require("../Models/Response/usuariosimplesresponse");
+    const objetoRes = ModelUser.UsuarioSimplesRes();
+
+    objetoRes.idUsuario = obj.id_usuario;
+    objetoRes.nome = obj.nm_usuario;
+    objetoRes.email = obj.ds_email;
+    objetoRes.datanascimento = obj.dt_nascimento;
+    objetoRes.linkweb = obj.ds_link_web;
+
+    return objetoRes;
+}
+
+async function ListaModelSimplesUser(colecao){
+    
+    const ColecaoUsers = [];
+    for(let item = 0; item < colecao.length; item++){
+
+        const idUser = colecao[item];
+        const user = await TbUsuarios.findOne({ where: { id_usuario: idUser.id_usuario }});
+
+        const modelFormatadoUser = TbUserparaModelSimples(user);
+        ColecaoUsers.push(modelFormatadoUser);
+    }
+
+    return ColecaoUsers;
+}
+
+module.exports = { ConverterTBparaRes, TbUserparaModelSimples, ListaModelSimplesUser };

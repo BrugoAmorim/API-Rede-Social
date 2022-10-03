@@ -15,6 +15,8 @@ myapp.put('/conta/editar/:idUser', controllerusers.AtualizarConta);
 
 myapp.delete('/conta/excluir/:idUser', controllerusers.ExcluirConta);
 
+myapp.get('/postagem/quemcurtiu/:idPost', controllerusers.QuemCurtiu);
+
 // Rotas postagem e feed
 myapp.get('/feed', controllerPostagens.Feed);
 
@@ -25,8 +27,6 @@ myapp.put('/postagem/editar/:idUser/:idPost', controllerPostagens.editarPostagem
 myapp.post('/postagem/curtir/:idPost/:idUser', controllerPostagens.curtirPostagem);
 
 myapp.delete('/postagem/excluir/:idUser/:idPost', controllerPostagens.excluirPost);
-
-myapp.get('/postagem/quemcurtiu/:idPost', controllerPostagens.QuemCurtiu);
 
 
 // Rotas comentarios

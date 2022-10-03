@@ -154,4 +154,24 @@ const DesbanirUsuario = async (req, res) => {
     }
 }
 
-module.exports = { Login, CriarConta, AtualizarConta, ExcluirConta, BanirUsuario, DesbanirUsuario };
+const QuemCurtiu = async (req, res) => {
+
+    try{
+        const TbPostagensCurtidas = require('../Models/tbpostagenscurtidas').PostagensCurtidas;
+        const validarCurtidas = require('../Services/feedservices').validarQuemCurtiu;
+
+        const { idPost } = req.params;
+        const Curtidas = await TbPostagensCurtidas.findAll({ where: { id_postagem: idPost }});
+
+        await validarCurtidas(idPost, Curtidas);
+
+        const PessoasQueCurtiram = await conversor.ListaModelSimplesUser(Curtidas);
+        return res.status(200).json(PessoasQueCurtiram);
+    }
+    catch(err){
+
+        return res.status(400).json({ message: err.message, code: 400 });
+    }
+}
+
+module.exports = { Login, CriarConta, AtualizarConta, ExcluirConta, BanirUsuario, DesbanirUsuario, QuemCurtiu };
