@@ -56,38 +56,110 @@ O sistema retorna uma coleção de arrays, onde cada array possui 2 sub-arrays, 
 [
     {
         Postagem: {
-            idpostagem: 'ID DA POSTAGEM',
-            titulo: 'TITULO DA POSTAGEM',
-            conteudo: 'CONTEUDO DA POSTAGEM',
-            dataPostagem: 'DATA DA POSTAGEM',
-            dataultimaAlteracao: 'DATA ULTIMA ALTERACAO',
-            numeroCurtidas: 'CURTIDAS DA POSTAGEM',
-            statuspostagem: 'STATUS DA POSTAGEM',
+            idpostagem: $'ID DA POSTAGEM',
+            titulo: $'TITULO DA POSTAGEM',
+            conteudo: $'CONTEUDO DA POSTAGEM',
+            dataPostagem: $'DATA DA POSTAGEM',
+            dataultimaAlteracao: $'DATA ULTIMA ALTERACAO',
+            numeroCurtidas: $'CURTIDAS DA POSTAGEM',
+            statuspostagem: $'STATUS DA POSTAGEM',
             usuarioPublicador: {
-                idUsuario: 'ID DO USUARIO',
-                nome: 'NOME DO USUARIO',
-                email: 'EMAIL DO USUARIO',
-                datanascimento: 'DATA DE NASCIMENTO DO USUARIO',
-                linkweb: 'LINK WEB DO USUARIO' 
+                idUsuario: $'ID DO USUARIO',
+                nome: $'NOME DO USUARIO',
+                email: $'EMAIL DO USUARIO',
+                datanascimento: $'DATA DE NASCIMENTO DO USUARIO',
+                linkweb: $'LINK WEB DO USUARIO' 
             }
         },
         Comentarios: [
             {
-                idcomentario: 'ID DO COMENTARIO',
-                comentario: 'COMENTARIO',
-                ultimaalteracao: 'DATA DA ULTIMA ALTERACAO',
-                curtidas: 'CURTIDAS DO COMENTARIO',
+                idcomentario: $'ID DO COMENTARIO',
+                comentario: $'COMENTARIO',
+                ultimaalteracao: $'DATA DA ULTIMA ALTERACAO',
+                curtidas: $'CURTIDAS DO COMENTARIO',
                 usuario: {
-                    idusuario: 'ID DO USUARIO',
-                    nome: 'NOME DO USUARIO',
-                    email: 'EMAIL DO USUARIO',
-                    datanascimento: 'DATA DE NASCIMENTO DO USUARIO',
-                    linkweb: 'LINK WEB DO USUARIO' 
+                    idusuario: $'ID DO USUARIO',
+                    nome: $'NOME DO USUARIO',
+                    email: $'EMAIL DO USUARIO',
+                    datanascimento: $'DATA DE NASCIMENTO DO USUARIO',
+                    linkweb: $'LINK WEB DO USUARIO' 
                 }
             }
         ]
     }
 ]
+```
+
+### Publicar Postagem - POST
+
+Url para publicar uma nova postagem. A função recebe uma requisição com apenas dois campos, o 'titulo' e o 'conteudo' da postagem, além do id do usuário que vai fazer a postagem do contéudo.
+
+<code>
+   http://localhost:3000/postagem/publicar/:idUser
+</code>
+ 
+###
+
+```
+{
+  "titulo": $'TITULO DA POSTAGEM',
+  "conteudo": $'CONTEUDO DA POSTAGEM'
+}
+```
+
+Nesse método todos os campos são obrigatórios, portanto, se o usuário deixar um deles vazio será retornado um código <strong>400</strong>, e obviamente, se o id do usuário não existir, será exibido uma mensagem dizendo que esse usuário não foi encontrado. Caso ele não cometa nenhum desses erros o código <strong>200</strong> é retornado junto do modelo response
+
+```
+{
+    idpostagem: $'ID DA POSTAGEM',
+    titulo: $'TITULO DA POSTAGEM',
+    conteudo: $'CONTEUDO DA POSTAGEM',
+    dataPostagem: $'DATA DA POSTAGEM',
+    dataultimaAlteracao: $'DATA ULTIMA ALTERACAO',
+    numeroCurtidas: $'CURTIDAS DA POSTAGEM',
+    statuspostagem: $'STATUS DA POSTAGEM',
+    usuarioPublicador: {
+        idUsuario: $'ID DO USUARIO',
+        nome: $'NOME DO USUARIO',
+        email: $'EMAIL DO USUARIO',
+        datanascimento: $'DATA DE NASCIMENTO DO USUARIO',
+        linkweb: $'LINK WEB DO USUARIO' 
+    }
+}
+```
+
+### Login - POST
+
+Url pertencente a funcionalidade Login. Esse método recebe um formulário com apenas dois campos, o campo 'email' e 'senha'
+
+<code>
+  http://localhost:3000/login
+</code>
+
+###
+
+```
+{
+  "email": $'EMAIL DO USUARIO',
+  "senha": $'SENHA DO USUARIO'
+}
+```
+
+Suas validações consistem em verificar se o email informado existe no banco de dados e se a senha informada corresponde ao email cadastrado, caso as informações estejam corretas o sistema retorna um código <strong>200</strong> junto do modelo response
+
+```
+{
+    idusuario: $'ID DO USUARIO',
+    nome: $'NOME DO USUARIO',
+    email: $'EMAIL DO USUARIO',
+    contacriada: $'DATA DA CRIACAO CONTA',
+    ultimaatuailzacao: $'DATA DA ULTIMA ATUALIZACAO CONTA',
+    datanascimento: $'DATA DE NASCIMENTO',
+    ultimologin: $'DATA DO ULTIMO LOGIN',
+    linkweb: $'LINK WEB DO USUARIO',
+    nivelacesso: $'NIVEL DE ACESSO',
+    status: $'STATUS DO USUARIO'
+}
 ```
 
 ## Modelagem do banco de dados
