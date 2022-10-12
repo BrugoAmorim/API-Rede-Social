@@ -53,4 +53,22 @@ async function apagarComentario(iduser, idcomment){
         throw new Error("Voce não pode excluir este comentário")
 }
 
-module.exports = { novoComentario, editarComentario, apagarComentario };
+async function buscarComentarios(usuario){
+
+    const user = await Usuarios.findOne({ where: { nm_usuario: usuario }});
+
+    if(user === null)
+        throw new Error("Este usuário não foi encontrado");
+
+    const comments = await Comentarios.findAll({ where: { 
+        id_usuario: user.id_usuario,
+        ds_status_comentario: "ATIVO" 
+    }});
+
+    if(comments.length === 0)
+        throw new Error("Este usuário ainda não fez comentários");
+
+    return comments;
+}
+
+module.exports = { novoComentario, editarComentario, apagarComentario, buscarComentarios };

@@ -1,6 +1,7 @@
 
 const Usuarios = require('../Models/tbusuarios').Usuarios;
 const Postagens = require('../Models/tbpostagens').Postagens;
+const TbComentariosCurtidos = require('../Models/tbcomentarioscurtidos').ComentariosCurtidos;
 
 const criarModel = require('../Models/Response/comentarioresponse');
 const criarModelUser = require('../Models/Response/usuariosimplesresponse');
@@ -28,8 +29,24 @@ async function converterTbparaRes(obj){
     comentarioRes.statuscomentario = obj.ds_status_comentario;
     comentarioRes.usuariocomentador = infoUser;
     comentarioRes.postagem = infoPost;
-
+    
     return comentarioRes;
 }
 
-module.exports = { converterTbparaRes };
+async function listaComentariosRes(docs){
+    
+    const comentarios = [];
+    for(let item = 0; item < docs.length; item++){
+
+        const caixote = await converterTbparaRes(docs[item]);
+
+        const curtidas = await TbComentariosCurtidos.findAll({ where: { id_comentario: caixote.idcomentario }});
+        caixote.curtidas = curtidas.length;
+
+        comentarios.push(caixote);
+    }
+
+    return comentarios;
+}
+
+module.exports = { converterTbparaRes, listaComentariosRes };

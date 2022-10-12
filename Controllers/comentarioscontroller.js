@@ -65,20 +65,25 @@ const curtirComentario = async (req, res) => {
 
 const Comentarios = async (req, res) => {
 
-    const comentarios = [];
+    try{
+        const { usuario } = req.query;
 
-    const docs = await TbComentarios.findAll({ where: { ds_status_comentario: "ATIVO" } });
-    for(let item = 0; item < docs.length; item++){
+        if(usuario !== ""){
+            const docs = await validar.buscarComentarios(usuario);
 
-        const caixote = await conversor.converterTbparaRes(docs[item]);
+            const comentarios = await conversor.listaComentariosRes(docs);
+            return res.status(200).json(comentarios);
+        }
 
-        const curtidas = await TbComentariosCurtidos.findAll({ where: { id_comentario: caixote.idcomentario }});
-        caixote.curtidas = curtidas.length;
+        const ComentariosAll = await TbComentarios.findAll({ where: { ds_status_comentario: "ATIVO" } });
+        const caixote = await conversor.listaComentariosRes(ComentariosAll);
 
-        comentarios.push(caixote);
+        return res.status(200).json(caixote)
     }
+    catch(err){
 
-    return res.status(200).json(comentarios);
+        return res.status(400).json({ message: err.message, code: 400 });
+    }
 }
 
 const editarComentario = async (req, res) => {
