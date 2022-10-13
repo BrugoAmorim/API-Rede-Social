@@ -5,7 +5,7 @@ const conexaodb = require('./database.js').conexaodb;
 
 const TbNiveis = require('./tbniveis').Niveis;
 
-const Usuarios = conexaodb.define('Tb_Usuarios', {
+const Usuarios = conexaodb.define('tb_usuarios', {
 
     id_usuario: {
         type: Sequelize.INTEGER,
@@ -53,7 +53,7 @@ const Usuarios = conexaodb.define('Tb_Usuarios', {
 
 }, { timestamps: false });
 
-// TbNiveis.hasOne(Usuarios, { foreignKey: "id_nivel_acesso" });
-// Usuarios.sync({ alter: true });
+TbNiveis.hasOne(Usuarios, { foreignKey: "id_nivel_acesso" });
+Usuarios.sync({ extends: true });
 
 module.exports = { Usuarios };

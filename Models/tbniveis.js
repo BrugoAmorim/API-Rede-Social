@@ -2,7 +2,7 @@
 const Sequelize = require('sequelize');
 const conexaodb = require('./database.js').conexaodb;
 
-const Niveis = conexaodb.define('Tb_Niveis', {
+const Niveis = conexaodb.define('tb_niveis', {
 
     id_nivel_acesso: {
         type: Sequelize.INTEGER,
@@ -19,6 +19,6 @@ const Niveis = conexaodb.define('Tb_Niveis', {
     }
 }, { timestamps: false });
 
-// Niveis.sync({ alter: true });
+Niveis.sync({ extends: true });
 
 module.exports = { Niveis };

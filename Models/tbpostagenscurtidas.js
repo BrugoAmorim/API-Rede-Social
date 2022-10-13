@@ -20,8 +20,8 @@ const PostagensCurtidas = conexaodb.define('Tb_Postagens_Curtidas', {
     }
 }, { timestamps: false });
 
-// Postagens.hasOne(PostagensCurtidas, { foreignKey: "id_postagem" });
-// Usuarios.hasOne(PostagensCurtidas, { foreignKey: "id_usuario" });
-// PostagensCurtidas.sync({ alter: true });
+Postagens.hasOne(PostagensCurtidas, { foreignKey: "id_postagem" });
+Usuarios.hasOne(PostagensCurtidas, { foreignKey: "id_usuario" });
+PostagensCurtidas.sync({ alter: true });
 
 module.exports = { PostagensCurtidas };

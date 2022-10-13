@@ -5,7 +5,7 @@ const conexaodb = require('./database.js').conexaodb;
 const Comentarios = require('./tbcomentarios').Comentarios;
 const Usuarios = require('./tbusuarios').Usuarios;
 
-const ComentariosCurtidos = conexaodb.define('Tb_comentarios_curtidos', {
+const ComentariosCurtidos = conexaodb.define('tb_comentarios_curtidos', {
 
     id_comentario_curtido: {
         type: Sequelize.INTEGER, 
@@ -20,8 +20,8 @@ const ComentariosCurtidos = conexaodb.define('Tb_comentarios_curtidos', {
     }
 }, { timestamps: false});
 
-// Usuarios.hasOne(ComentariosCurtidos, { foreignKey: "id_usuario" });
-// Comentarios.hasOne(ComentariosCurtidos, { foreignKey: "id_comentario" });
-// ComentariosCurtidos.sync({ alter: true });
+Usuarios.hasOne(ComentariosCurtidos, { foreignKey: "id_usuario" });
+Comentarios.hasOne(ComentariosCurtidos, { foreignKey: "id_comentario" });
+ComentariosCurtidos.sync({ extends: true });
 
 module.exports = { ComentariosCurtidos };

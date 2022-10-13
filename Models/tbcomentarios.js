@@ -38,8 +38,8 @@ const Comentarios = conexaodb.define('tb_comentarios', {
 
 }, { timestamps: false});
 
-// Comentarios.belongsTo(Usuarios, { foreignKey: "id_usuario" });
-// Comentarios.belongsTo(Postagens, { foreignKey: "id_postagem" });
-// Comentarios.sync({ alter: true });
+Comentarios.belongsTo(Usuarios, { foreignKey: "id_usuario" });
+Comentarios.belongsTo(Postagens, { foreignKey: "id_postagem" });
+Comentarios.sync({ extends: true });
 
 module.exports = { Comentarios };

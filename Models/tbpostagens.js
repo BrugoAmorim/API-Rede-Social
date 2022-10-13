@@ -4,7 +4,7 @@ const conexaodb = require('./database.js').conexaodb;
 
 const Usuarios = require('./tbusuarios').Usuarios;
 
-const Postagens = conexaodb.define('Tb_Postagens', {
+const Postagens = conexaodb.define('tb_postagens', {
 
     id_postagem: {
         type: Sequelize.INTEGER,
@@ -35,7 +35,7 @@ const Postagens = conexaodb.define('Tb_Postagens', {
     }
 }, { timestamps: false });
 
-// Usuarios.hasOne(Postagens, { foreignKey: "id_usuario" });
-// Postagens.sync({ alter: true });
+Usuarios.hasOne(Postagens, { foreignKey: "id_usuario" });
+Postagens.sync({ extends: true });
 
 module.exports = { Postagens };
