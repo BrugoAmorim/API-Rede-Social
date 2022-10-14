@@ -216,3 +216,9 @@ Suas validações consistem em verificar se o email informado existe no banco de
    <img src="https://user-images.githubusercontent.com/87936511/193318141-ceb21214-86e7-4ff4-b2de-12f89290c7b0.PNG"/>
 </div>
 
+###
+
+Inserts no Banco de dados em formato .txt <a href="https://github.com/BrugoAmorim/API-Rede-Social/files/9781341/script-bd.txt">Script</a>
+
+ 
+
